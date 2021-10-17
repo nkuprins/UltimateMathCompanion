@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>UltimateMathCompanion</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <th>№</th>
+            <th>Expression</th>
+            <th>Answer</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Complexity</th>
+        </thead>
+        <tbody>
+            <tr th:each="tempExpression, expressionStat: ${expression}">
+                <td th:text="${expressionStat.count}"/>
+                <td th:text="${tempExpression.expression}"/>
+                <td th:text="${tempExpression.answer}"/>
+                <td th:text="${tempExpression.date}"/>
+                <td th:text="${tempExpression.expressionTypes.getType()}"/>
+                <td th:text="${tempExpression.expressionTypes.expressionComplexity.getDescription()}"/>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
