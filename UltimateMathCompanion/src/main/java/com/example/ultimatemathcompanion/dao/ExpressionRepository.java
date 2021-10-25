@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface ExpressionRepository extends JpaRepository<Expression, Integer> {
 
-    List<Expression> findAll();
 }

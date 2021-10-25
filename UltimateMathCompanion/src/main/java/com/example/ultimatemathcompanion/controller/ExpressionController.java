@@ -2,9 +2,12 @@ package com.example.ultimatemathcompanion.controller;
 
 import com.example.ultimatemathcompanion.datamodel.Expression;
 import com.example.ultimatemathcompanion.service.ExpressionService;
+import javassist.expr.Expr;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -24,4 +27,19 @@ public class ExpressionController {
         model.addAttribute("expression", expressions);
         return "index";
     }
+
+    @GetMapping("/addExpression")
+    public String addExpression(Model model) {
+
+        Expression expressions = new Expression();
+        model.addAttribute("expression", expressions);
+        return "expression-form";
+    }
+
+    @PostMapping("/save")
+    public String saveExpression(@ModelAttribute("expression") Expression expression) {
+        expressionService.save(expression);
+        return "redirect:/";
+    }
+
 }

@@ -7,4 +7,6 @@ import java.util.List;
 public interface ExpressionService {
 
     List<Expression> findAll();
+    void save(Expression expression);
+
 }

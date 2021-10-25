@@ -19,4 +19,9 @@ public class ExpressionServiceImpl implements ExpressionService {
     public List<Expression> findAll() {
         return expressionRepository.findAll();
     }
+
+    @Override
+    public void save(Expression expression) {
+        expressionRepository.save(expression);
+    }
 }
