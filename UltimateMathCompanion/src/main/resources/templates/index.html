@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>UltimateMathCompanion</title>
-
+    <script src="mainScript.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
@@ -22,7 +22,8 @@
             <th>Complexity</th>
         </thead>
         <tbody>
-            <tr th:each="tempExpression, expressionStat: ${expression}">
+            <tr th:each="tempExpression, expressionStat: ${expression}"
+                th:onclick="'highlightRow(this);'">
                 <td th:text="${expressionStat.count}"/>
                 <td th:text="${tempExpression.expression}"/>
                 <td th:text="${tempExpression.answer}"/>
