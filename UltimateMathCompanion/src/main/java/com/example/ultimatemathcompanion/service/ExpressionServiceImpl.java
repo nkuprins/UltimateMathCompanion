@@ -26,6 +26,11 @@ public class ExpressionServiceImpl implements ExpressionService {
     }
 
     @Override
+    public void deleteById(int id) {
+        expressionRepository.deleteById(id);
+    }
+
+    @Override
     public void save(Expression expression) {
         expressionRepository.save(expression);
     }

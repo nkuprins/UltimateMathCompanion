@@ -53,6 +53,14 @@ public class ExpressionController {
         return "expression-form";
     }
 
+    @GetMapping("/deleteExpression")
+    public String deleteExpression(@RequestParam("id") int id) {
+
+        expressionService.deleteById(id);
+
+        return "redirect:/";
+    }
+
     @PostMapping("/save")
     public String saveExpression(@ModelAttribute("theExpression") Expression expression) {
 

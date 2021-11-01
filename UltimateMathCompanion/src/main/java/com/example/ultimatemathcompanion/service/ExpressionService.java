@@ -8,4 +8,5 @@ public interface ExpressionService {
     List<Expression> findAll();
     Expression findById(int id);
     void save(Expression expression);
+    void deleteById(int id);
 }
