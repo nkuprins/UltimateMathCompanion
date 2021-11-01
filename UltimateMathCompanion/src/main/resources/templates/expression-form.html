@@ -19,7 +19,7 @@
 
                 <form th:action="@{/save}" th:object="${theExpression}" method="post">
 
-                    <input type="hidden" th:field="*{primaryKey}">
+                    <input type="hidden" th:field="*{id}">
                     <input class="form-control mb-4" type="text" th:field="*{expression}"
                            placeholder="2 + 2 / 4 - 8 + 100 * 2">
 

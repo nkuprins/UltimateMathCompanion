@@ -20,7 +20,6 @@ package com.example.ultimatemathcompanion.datamodel;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "expressions")
@@ -29,7 +28,7 @@ public class Expression {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "expression_id")
-    private int primaryKey;
+    private int id;
 
     @Column(name = "expression")
     private String expression;
@@ -55,12 +54,12 @@ public class Expression {
         this.expressionTypes = expressionTypes;
     }
 
-    public int getPrimaryKey() {
-        return primaryKey;
+    public int getId() {
+        return id;
     }
 
-    public void setPrimaryKey(int primaryKey) {
-        this.primaryKey = primaryKey;
+    public void setId(int primaryKey) {
+        this.id = primaryKey;
     }
 
     public String getExpression() {

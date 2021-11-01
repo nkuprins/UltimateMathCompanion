@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -40,6 +41,14 @@ public class ExpressionController {
     public String addExpression(Model model) {
 
         Expression expressions = new Expression();
+        model.addAttribute("theExpression", expressions);
+        return "expression-form";
+    }
+
+    @GetMapping("/updateExpression")
+    public String updateExpression(@RequestParam("id") int id, Model model) {
+
+        Expression expressions = expressionService.findById(id);
         model.addAttribute("theExpression", expressions);
         return "expression-form";
     }

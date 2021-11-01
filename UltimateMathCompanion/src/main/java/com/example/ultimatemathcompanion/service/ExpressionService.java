@@ -6,5 +6,6 @@ import java.util.List;
 public interface ExpressionService {
 
     List<Expression> findAll();
+    Expression findById(int id);
     void save(Expression expression);
 }

@@ -21,6 +21,11 @@ public class ExpressionServiceImpl implements ExpressionService {
     }
 
     @Override
+    public Expression findById(int id) {
+        return expressionRepository.getById(id);
+    }
+
+    @Override
     public void save(Expression expression) {
         expressionRepository.save(expression);
     }
