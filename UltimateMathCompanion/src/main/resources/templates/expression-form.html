@@ -6,7 +6,9 @@
     <title>UltimateMathCompanion</title>
 
     <link rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+          crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
@@ -18,7 +20,9 @@
                 <form th:action="@{/save}" th:object="${theExpression}" method="post">
 
                     <input type="hidden" th:field="*{primaryKey}">
-                    <input class="form-control mb-4" type="text" th:field="*{expression}" placeholder="2 + 2 / 4 - 8 + 100 * 2">
+                    <input class="form-control mb-4" type="text" th:field="*{expression}"
+                           placeholder="2 + 2 / 4 - 8 + 100 * 2">
+
 
                     <div th:align="center">
                         <a th:href="@{/}" class="btn btn-danger col-5">Back</a>
