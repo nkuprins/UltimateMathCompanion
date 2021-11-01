@@ -22,7 +22,7 @@
             <th>Complexity</th>
         </thead>
         <tbody>
-            <tr th:each="tempExpression, expressionStat: ${expression}"
+            <tr th:each="tempExpression, expressionStat: ${theExpression}"
                 th:onclick="'highlightRow(this);'">
                 <td th:text="${expressionStat.count}"/>
                 <td th:text="${tempExpression.expression}"/>

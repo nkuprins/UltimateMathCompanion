@@ -24,7 +24,7 @@ public class ExpressionController {
     public String showPage(Model model) {
 
         List<Expression> expressions = expressionService.findAll();
-        model.addAttribute("expression", expressions);
+        model.addAttribute("theExpression", expressions);
         return "index";
     }
 
@@ -32,12 +32,12 @@ public class ExpressionController {
     public String addExpression(Model model) {
 
         Expression expressions = new Expression();
-        model.addAttribute("expression", expressions);
+        model.addAttribute("theExpression", expressions);
         return "expression-form";
     }
 
     @PostMapping("/save")
-    public String saveExpression(@ModelAttribute("expression") Expression expression) {
+    public String saveExpression(@ModelAttribute("theExpression") Expression expression) {
         expressionService.save(expression);
         return "redirect:/";
     }
