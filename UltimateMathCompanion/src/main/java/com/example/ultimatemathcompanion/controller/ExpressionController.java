@@ -1,20 +1,13 @@
 package com.example.ultimatemathcompanion.controller;
 
 import com.example.ultimatemathcompanion.datamodel.Expression;
-import com.example.ultimatemathcompanion.datamodel.ExpressionTypes;
 import com.example.ultimatemathcompanion.math.Calculations;
 import com.example.ultimatemathcompanion.service.ExpressionService;
 import com.example.ultimatemathcompanion.service.ExpressionTypesService;
-import javassist.expr.Expr;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,11 +16,14 @@ import java.util.List;
 @Controller
 public class ExpressionController {
 
-    @Autowired
     private ExpressionService expressionService;
 
-    @Autowired
     private ExpressionTypesService expressionTypesService;
+
+    public ExpressionController(ExpressionService expressionService, ExpressionTypesService expressionTypesService) {
+        this.expressionService = expressionService;
+        this.expressionTypesService = expressionTypesService;
+    }
 
     @GetMapping("/")
     public String showPage(Model model) {
@@ -57,7 +53,6 @@ public class ExpressionController {
     public String deleteExpression(@RequestParam("id") int id) {
 
         expressionService.deleteById(id);
-
         return "redirect:/";
     }
 

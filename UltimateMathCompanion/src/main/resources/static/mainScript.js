@@ -6,7 +6,7 @@ function selectRow(row) {
 }
 
 function selectFirstRow() {
-    const rows = document.querySelectorAll("tr");
+    const rows = document.getElementById("expressions-list").querySelectorAll("tr");
     rows[1].className = 'bg-info';
 }
 

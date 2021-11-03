@@ -5,14 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>UltimateMathCompanion</title>
     <script src="mainScript.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+          crossorigin="anonymous">
 </head>
 <body>
-<div class="container">
+<div class="d-flex vh-100 container">
+    <div id="calculator" class="d-flex w-25 align-self-center">
+        <table class="table table-bordered table-dark">
+        <thead th:align="right">
+            <th colspan="4">0</th>
+        </thead>
+        <tbody th:align="center">
+            <tr>
+                <td th:class="bg-primary">AC</td>
+                <td th:class="bg-primary">+/-</td>
+                <td th:class="bg-primary">%</td>
+                <td th:class="bg-info">/</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+                <td th:class="bg-info">*</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+                <td th:class="bg-info">-</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td th:class="bg-info">+</td>
+            </tr>
+            <tr>
+                <td colspan="2">0</td>
+                <td>,</td>
+                <td th:class="bg-info">=</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
 
-    <a th:href="@{/addExpression}" class="btn btn-danger">Add</a>
+    <div id="expressions-list" class="ml-4 mt-4">
+        <a th:href="@{/addExpression}" class="btn btn-info mb-1 w-100 float-right">Add New</a>
 
-    <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped table-hover">
         <thead class="thead-dark">
             <th>№</th>
             <th>Expression</th>
@@ -32,15 +73,18 @@
                 <td th:text="${tempExpression.expressionTypes.getType()}"/>
                 <td th:text="${tempExpression.expressionTypes.expressionComplexity.getDescription()}"/>
                 <td th:align="center">
-                    <a th:href="@{/updateExpression(id=${tempExpression.getId()})}" class="btn btn-dark">Update</a>
-                    <a th:href="@{/deleteExpression(id=${tempExpression.getId()})}" class="btn btn-dark"
+                    <a th:href="@{/updateExpression(id=${tempExpression.getId()})}" class="btn btn-dark w-100 mb-1">
+                        Update
+                    </a>
+                    <a th:href="@{/deleteExpression(id=${tempExpression.getId()})}" class="btn btn-dark w-100"
                        onclick="if (!(confirm('Are you sure you want to delete this?'))) return false">
                         Delete
                     </a>
                 </td>
             </tr>
         </tbody>
-    </table>
+        </table>
+    </div>
 </div>
 </body>
 </html>
