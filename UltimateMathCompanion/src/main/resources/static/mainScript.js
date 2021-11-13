@@ -1,6 +1,6 @@
 
 function selectRow(row) {
-    const rows = document.querySelectorAll("tr");
+    const rows = document.getElementById("expressions-list").querySelectorAll("tr");
     rows.forEach(el => el.className='')
     row.className  = 'bg-info';
 }
