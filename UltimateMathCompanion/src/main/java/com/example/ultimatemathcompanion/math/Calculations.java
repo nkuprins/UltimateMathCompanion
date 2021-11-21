@@ -82,7 +82,7 @@ public final class Calculations {
                 // Variable s is an operation symbol
                 operation = s;
             } else {
-                // Variable s is number or expression(with / or * operations)
+                // Variable s is number or expression(with / or * operators)
                 temp = convertStrongExpressionToNum(s);
                 result = calculate(result, temp, operation);
             }
@@ -110,15 +110,14 @@ public final class Calculations {
     // Example:
     // Input: 2 * 3 - 1 / 3 + 2
     // Output: [ 2 * 3, - , 1 / 3 , + , 2 ]
+    //
     // Input: 2 * 3 / 5 * 7
     // Output: [ 2, * , 3 , / , 5 , * , 7 ]
     private static String[] splitByOperationsOrder(String expression) {
-
         if (!getExpressionSigns(expression).contains('+') &&
                 !getExpressionSigns(expression).contains('-')) {
             return expression.split(" ");
         }
-
         return expression.split("(?<=[^/*])\\s(?=[^/*])");
     }
 
@@ -130,7 +129,6 @@ public final class Calculations {
         if (s.chars().anyMatch(item -> item == ' ')) {
             return calculate(s);
         }
-
         return new BigDecimal(s);
     }
 }
