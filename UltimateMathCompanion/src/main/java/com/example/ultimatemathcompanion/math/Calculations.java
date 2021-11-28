@@ -35,6 +35,12 @@ public final class Calculations {
 
     private Calculations() {}
 
+    public static long countOfDigits(String str) {
+        return str.chars()
+                .filter(Character::isDigit)
+                .count();
+    }
+
     public static int getExpressionTypeId(String str) {
         if (countOfDigits(str) >= 30) {
             return 4; // */+- long
@@ -51,12 +57,6 @@ public final class Calculations {
         return 2; // */+-
     }
 
-    public static long countOfDigits(String str) {
-        return str.chars()
-                .filter(Character::isDigit)
-                .count();
-    }
-
     public static Set<Character> getExpressionSigns(String str) {
         String[] array = str.split(" ");
         return Arrays.stream(array)
@@ -69,6 +69,32 @@ public final class Calculations {
     public static boolean isValidFormat(String str) {
         Matcher matcher = validFormat.matcher(str);
         return matcher.matches();
+    }
+
+    // Splits expression by math order
+    // Example:
+    // Input: 2 * 3 - 1 / 3 + 2
+    // Output: [ 2 * 3, - , 1 / 3 , + , 2 ]
+    //
+    // Input: 2 * 3 / 5 * 7
+    // Output: [ 2, * , 3 , / , 5 , * , 7 ]
+    private static String[] splitByOperationsOrder(String expression) {
+        if (!getExpressionSigns(expression).contains('+') &&
+                !getExpressionSigns(expression).contains('-')) {
+            return expression.split(" ");
+        }
+        return expression.split("(?<=[^/*])\\s(?=[^/*])");
+    }
+
+    // Converts expression to BigDecimal.
+    // If expression is like "2 / 5 * 7", then calculates it
+    // and return BigDecimal
+    // If expression is already calculated, then just return BigDecimal
+    private static BigDecimal convertStrongExpressionToNum(String s) {
+        if (s.chars().anyMatch(item -> item == ' ')) {
+            return calculate(s);
+        }
+        return new BigDecimal(s);
     }
 
     public static BigDecimal calculate(String expression) {
@@ -104,31 +130,5 @@ public final class Calculations {
             default:
                 return BigDecimal.ZERO;
         }
-    }
-
-    // Splits expression by math order
-    // Example:
-    // Input: 2 * 3 - 1 / 3 + 2
-    // Output: [ 2 * 3, - , 1 / 3 , + , 2 ]
-    //
-    // Input: 2 * 3 / 5 * 7
-    // Output: [ 2, * , 3 , / , 5 , * , 7 ]
-    private static String[] splitByOperationsOrder(String expression) {
-        if (!getExpressionSigns(expression).contains('+') &&
-                !getExpressionSigns(expression).contains('-')) {
-            return expression.split(" ");
-        }
-        return expression.split("(?<=[^/*])\\s(?=[^/*])");
-    }
-
-    // Converts expression to BigDecimal.
-    // If expression is like "2 / 5 * 7", then calculates it
-    // and return BigDecimal
-    // If expression is already calculated, then just return BigDecimal
-    private static BigDecimal convertStrongExpressionToNum(String s) {
-        if (s.chars().anyMatch(item -> item == ' ')) {
-            return calculate(s);
-        }
-        return new BigDecimal(s);
     }
 }

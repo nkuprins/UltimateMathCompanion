@@ -13,7 +13,7 @@
     <script th:inline="javascript">
         const format = [[${format}]];
         window.onload = function() {
-            if (format === false) {
+            if (!format) {
                 createErrorAlert();
             }
         };

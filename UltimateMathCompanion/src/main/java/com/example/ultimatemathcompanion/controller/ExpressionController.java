@@ -19,8 +19,8 @@ import java.util.List;
 @Controller
 public class ExpressionController {
 
-    private ExpressionService expressionService;
-    private ExpressionTypesService expressionTypesService;
+    private final ExpressionService expressionService;
+    private final ExpressionTypesService expressionTypesService;
     private boolean isValid = true;
 
     public ExpressionController(ExpressionService expressionService, ExpressionTypesService expressionTypesService) {
@@ -37,7 +37,7 @@ public class ExpressionController {
     }
 
     @GetMapping("/addExpression")
-    public String addExpression(Model model, RedirectAttributes redirectAttributes) {
+    public String addExpression(Model model) {
 
         Expression expressions = new Expression();
         model.addAttribute("theExpression", expressions);
