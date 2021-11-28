@@ -33,28 +33,23 @@ public final class Calculations {
     // All numbers are only integers.
     private static final Pattern validFormat = Pattern.compile("^-?\\d+( [+\\-*/] -?\\d+)+$");
 
-    private Calculations() {}
+    private enum Types {
+        PlusMinus(1),     // +-
+        DivMultipl(3),    // */
+        Combined(2),      // */+-
+        LongCombined(4);  // */+-*/+-
 
-    public static long countOfDigits(String str) {
-        return str.chars()
-                .filter(Character::isDigit)
-                .count();
+        private final int id;
+
+        Types(int id) {
+            this.id = id;
+        }
     }
 
-    public static int getExpressionTypeId(String str) {
-        if (countOfDigits(str) >= 30) {
-            return 4; // */+- long
-        }
+    private Calculations() {}
 
-        Set<Character> signs = getExpressionSigns(str);
-        if (!signs.contains('/') && !signs.contains('*')) {
-            return 1; // +-
-        }
-        if (!signs.contains('+') && !signs.contains('-')) {
-            return 3; // */
-        }
-
-        return 2; // */+-
+    public static long countDigits(String str) {
+        return str.chars().filter(Character::isDigit).count();
     }
 
     public static Set<Character> getExpressionSigns(String str) {
@@ -64,6 +59,21 @@ public final class Calculations {
                 .map(s -> s.charAt(0))
                 .filter(mathSigns::contains)
                 .collect(Collectors.toSet());
+    }
+
+    public static int getExpressionTypeId(String str) {
+        if (countDigits(str) >= 30)
+            return Types.LongCombined.id;
+
+        Set<Character> signs = getExpressionSigns(str);
+
+        if (!signs.contains('/') && !signs.contains('*'))
+            return Types.PlusMinus.id;
+
+        if (!signs.contains('+') && !signs.contains('-'))
+            return Types.DivMultipl.id;
+
+        return Types.Combined.id;
     }
 
     public static boolean isValidFormat(String str) {
