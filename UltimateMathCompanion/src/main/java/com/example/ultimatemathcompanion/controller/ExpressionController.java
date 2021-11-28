@@ -65,26 +65,30 @@ public class ExpressionController {
         return "redirect:/";
     }
 
-    @PostMapping("/save")
-    public String saveExpression(@ModelAttribute("theExpression") Expression expression, HttpServletRequest request) {
-
+    private void processExpression(Expression expression) {
         String theExpression = expression.getExpression();
-        isValid = Calculations.isValidFormat(theExpression);
-        if (!isValid) {
-            String referer = request.getHeader("Referer");
-            return "redirect:"+ referer;
-        }
-        // TODO LIST: ADD SEPARATE METHOD FOR THE FOLLOWING CODE
         BigDecimal answer = Calculations.calculate(theExpression);
+
         int typeId = Calculations.getExpressionTypeId(theExpression);
         ExpressionTypes expressionTypes = expressionTypesService.findById(typeId);
+
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Date currentDate = Date.valueOf(LocalDateTime.now().format(dateTimeFormatter));
 
         expression.setAnswer(answer);
         expression.setDate(currentDate);
         expression.setExpressionTypes(expressionTypes);
+    }
 
+    @PostMapping("/save")
+    public String saveExpression(@ModelAttribute("theExpression") Expression expression, HttpServletRequest request) {
+
+        String theExpression = expression.getExpression();
+        isValid = Calculations.isValidFormat(theExpression);
+        if (!isValid)
+            return "redirect:"+ request.getHeader("Referer");
+
+        processExpression(expression);
         expressionService.save(expression);
         return "redirect:/";
     }
