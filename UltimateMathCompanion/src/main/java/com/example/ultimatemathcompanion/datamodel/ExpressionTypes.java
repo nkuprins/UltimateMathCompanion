@@ -1,7 +1,6 @@
 package com.example.ultimatemathcompanion.datamodel;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "types")
@@ -15,7 +14,7 @@ public class ExpressionTypes {
     @Column(name = "type")
     private String type;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "complexity")
     private ExpressionComplexity expressionComplexity;
 
