@@ -54,37 +54,36 @@
         </form>
     </div>
 
-    <div id="expressions-list" class="ms-auto mt-4">
+    <div id="expressions-list" class="ms-auto mt-4 w-75">
+        <div class="btn-group w-100">
+            <a th:href="@{/addExpression}" class="btn btn-info">Add New</a>
+            <a th:onclick="'redirectToUpdate();'" class="btn btn-info">Update</a>
+            <a class="btn btn-info" onclick="if (confirm('Are you sure you want to delete this?')) redirectToDelete();">
+                Delete
+            </a>
+        </div>
 
-        <a th:href="@{/addExpression}" class="btn btn-info mb-1 w-100">Add New</a>
         <table class="table table-bordered table-striped table-hover table-active">
         <thead class="thead-dark">
-            <th>№</th>
-            <th>Expression</th>
-            <th>Answer</th>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Complexity</th>
-            <th></th>
+        <tr class="text-center">
+            <th class="col-auto">№</th>
+            <th class="col-4">Expression</th>
+            <th class="col-2">Answer</th>
+            <th class="col-2">Date</th>
+            <th class="col-auto">Type</th>
+            <th class="col-5">Complexity</th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="tempExpression, expressionStat: ${theExpression}"
-                th:onclick="'selectRow(this);'">
+
+        <tr class="text-center" th:each="tempExpression, expressionStat: ${theExpression}"
+                th:attr="onclick=|selectRow(this,'${tempExpression.getId()}')|">
                 <td th:text="${expressionStat.count}"></td>
                 <td th:text="${tempExpression.expression}"></td>
                 <td th:text="${tempExpression.answer}"></td>
                 <td th:text="${tempExpression.date}"></td>
                 <td th:text="${tempExpression.expressionTypes.getType()}"></td>
                 <td th:text="${tempExpression.expressionTypes.expressionComplexity.getDescription()}"></td>
-                <td th:align="center">
-                    <a th:href="@{/updateExpression(id=${tempExpression.getId()})}" class="btn btn-dark w-100 mb-1">
-                        Update
-                    </a>
-                    <a th:href="@{/deleteExpression(id=${tempExpression.getId()})}" class="btn btn-dark w-100"
-                       onplay="if (!(confirm('Are you sure you want to delete this?'))) return false">
-                        Delete
-                    </a>
-                </td>
             </tr>
         </tbody>
         </table>
