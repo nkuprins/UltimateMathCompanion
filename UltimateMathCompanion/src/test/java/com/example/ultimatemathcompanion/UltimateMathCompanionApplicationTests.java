@@ -14,16 +14,6 @@ import java.math.BigDecimal;
 class UltimateMathCompanionApplicationTests {
 
     @ParameterizedTest
-    @CsvSource(value = {
-            "272 + 250 = 522 :9",
-            "272 + 250 - 100 = 422 :12",
-            "47 * 95 + 9 * 56 * 46 + 95 - 87 * 74 - 75 / 83 = 21305.0964 :28"
-    }, delimiter = ':')
-    public void countOfDigits(String expressions, long result) {
-        Assertions.assertEquals(result, Calculations.countDigits(expressions));
-    }
-
-    @ParameterizedTest
     @ValueSource(strings = {
             "272 + 250", "430 + 876", "-900 + 800", "200 - 25 * 100 / 25"
     })

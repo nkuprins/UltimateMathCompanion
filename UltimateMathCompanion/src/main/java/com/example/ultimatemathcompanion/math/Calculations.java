@@ -33,10 +33,10 @@ public final class Calculations {
     private static final List<Character> mathSigns = Arrays.asList('+', '-', '*', 'x', '/', '÷');
 
     private enum Types {
-        PlusMinus(1),     // +-
-        DivMultipl(3),    // */
-        Combined(2),      // */+-
-        LongExpression(4);  // */+-*/+-
+        SumSubtract(1),             // +-
+        SumSubtrDivMultipl(2),      // */+-
+        DivisionMultipl(3),         // */
+        LongExpression(4);          // */+-*/+-
 
         private final int id;
 
@@ -47,11 +47,11 @@ public final class Calculations {
 
     private Calculations() {}
 
-    public static long countDigits(String str) {
+    private static long countDigits(String str) {
         return str.chars().filter(Character::isDigit).count();
     }
 
-    public static Set<Character> getExpressionSigns(String str) {
+    private static Set<Character> getExpressionSigns(String str) {
         return Arrays.stream(str.split(" "))
                 .filter(s -> s.length() == 1)
                 .map(s -> s.charAt(0))
@@ -66,12 +66,12 @@ public final class Calculations {
         Set<Character> signs = getExpressionSigns(str);
 
         if (!signs.contains('/') && !signs.contains('*'))
-            return Types.PlusMinus.id;
+            return Types.SumSubtract.id;
 
         if (!signs.contains('+') && !signs.contains('-'))
-            return Types.DivMultipl.id;
+            return Types.DivisionMultipl.id;
 
-        return Types.Combined.id;
+        return Types.SumSubtrDivMultipl.id;
     }
 
     public static boolean isValidFormat(String str) {
@@ -79,19 +79,33 @@ public final class Calculations {
         return matcher.matches();
     }
 
-    // Splits expression by math order
-    // Example:
-    // Input: 2 * 3 - 1 / 3 + 2
-    // Output: [ 2 * 3, - , 1 / 3 , + , 2 ]
-    //
-    // Input: 2 * 3 / 5 * 7
-    // Output: [ 2, * , 3 , / , 5 , * , 7 ]
     private static String[] splitByOperationsOrder(String expression) {
+        // Splits expression by math order.
+        // Input: 2 * 3 - 1 / 3 + 2
+        // Output: [ 2 * 3, - , 1 / 3 , + , 2 ]
+        //
+        // Input: 2 * 3 / 5 * 7
+        // Output: [ 2, * , 3 , / , 5 , * , 7 ]
         Set<Character> signs = getExpressionSigns(expression);
         if (!signs.contains('+') && !signs.contains('-'))
             return expression.split(" ");
 
         return expression.split("(?<=[^/*])\\s(?=[^/*])");
+    }
+
+    private static BigDecimal calculate(BigDecimal num1, BigDecimal num2, String operation) {
+        switch (operation) {
+            case "+":
+                return num1.add(num2);
+            case "-":
+                return num1.subtract(num2);
+            case "x": case "*":
+                return num1.multiply(num2);
+            case "÷": case "/":
+                return num1.divide(num2, 4, RoundingMode.HALF_UP);
+            default:
+                return BigDecimal.ZERO;
+        }
     }
 
     public static BigDecimal calculate(String expression) {
@@ -121,20 +135,5 @@ public final class Calculations {
         }
 
         return result;
-    }
-
-    public static BigDecimal calculate(BigDecimal num1, BigDecimal num2, String operation) {
-        switch (operation) {
-            case "+":
-                return num1.add(num2);
-            case "-":
-                return num1.subtract(num2);
-            case "x": case "*":
-                return num1.multiply(num2);
-            case "÷": case "/":
-                return num1.divide(num2, 4, RoundingMode.HALF_UP);
-            default:
-                return BigDecimal.ZERO;
-        }
     }
 }
