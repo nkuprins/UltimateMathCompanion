@@ -8,7 +8,7 @@ import com.example.ultimatemathcompanion.service.ExpressionTypesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -21,7 +21,9 @@ public class ExpressionController {
 
     private final ExpressionService expressionService;
     private final ExpressionTypesService expressionTypesService;
-    private boolean isValid = true;
+
+    // Keeps track if text in form field is has valid format. SERVER-SIDE validation.
+    private boolean formatIsValid = true;
 
     public ExpressionController(ExpressionService expressionService, ExpressionTypesService expressionTypesService) {
         this.expressionService = expressionService;
@@ -41,8 +43,8 @@ public class ExpressionController {
 
         Expression expressions = new Expression();
         model.addAttribute("theExpression", expressions);
-        model.addAttribute("format", isValid);
-        isValid = true;
+        model.addAttribute("formatIsValid", formatIsValid);
+        formatIsValid = true;
 
         return "expression-form";
     }
@@ -52,8 +54,8 @@ public class ExpressionController {
 
         Expression expressions = expressionService.findById(id);
         model.addAttribute("theExpression", expressions);
-        model.addAttribute("format", isValid);
-        isValid = true;
+        model.addAttribute("format", formatIsValid);
+        formatIsValid = true;
 
         return "expression-form";
     }
@@ -84,9 +86,9 @@ public class ExpressionController {
     public String saveExpression(@ModelAttribute("theExpression") Expression expression, HttpServletRequest request) {
 
         String theExpression = expression.getExpression();
-        isValid = Calculations.isValidFormat(theExpression);
-        if (!isValid)
-            return "redirect:"+ request.getHeader("Referer");
+        formatIsValid = Calculations.isValidFormat(theExpression);
+        if (!formatIsValid)
+            return "redirect:"+ request.getHeader("Referer"); // Format is not valid reset the page.
 
         processExpression(expression);
         expressionService.save(expression);

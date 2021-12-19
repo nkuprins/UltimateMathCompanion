@@ -11,11 +11,12 @@
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
           crossorigin="anonymous">
     <script th:inline="javascript">
-        const format = [[${format}]];
+        // If SERVER-SIDE validation failed, then formatIsValid is False.
+        // Hence, page is restarted and this code will show alert().
+        const formatIsValid = [[${formatIsValid}]];
         window.onload = function() {
-            if (!format) {
+            if (!formatIsValid)
                 createErrorAlert();
-            }
         };
     </script>
 </head>
