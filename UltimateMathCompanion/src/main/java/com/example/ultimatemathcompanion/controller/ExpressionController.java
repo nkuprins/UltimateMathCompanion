@@ -22,7 +22,7 @@ public class ExpressionController {
     private final ExpressionService expressionService;
     private final ExpressionTypesService expressionTypesService;
 
-    // Keeps track if text in form field is has valid format. SERVER-SIDE validation.
+    // Keeps track if text in form field has valid format(SERVER-SIDE validation).
     private boolean formatIsValid = true;
 
     public ExpressionController(ExpressionService expressionService, ExpressionTypesService expressionTypesService) {
@@ -68,25 +68,24 @@ public class ExpressionController {
     }
 
     private void processExpression(Expression expression) {
+
         String theExpression = expression.getExpression();
         BigDecimal answer = Calculations.calculate(theExpression);
+        expression.setAnswer(answer);
 
         int typeId = Calculations.getExpressionTypeId(theExpression);
         ExpressionTypes expressionTypes = expressionTypesService.findById(typeId);
+        expression.setExpressionTypes(expressionTypes);
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Date currentDate = Date.valueOf(LocalDateTime.now().format(dateTimeFormatter));
-
-        expression.setAnswer(answer);
         expression.setDate(currentDate);
-        expression.setExpressionTypes(expressionTypes);
     }
 
     @PostMapping("/save")
     public String saveExpression(@ModelAttribute("theExpression") Expression expression, HttpServletRequest request) {
 
-        String theExpression = expression.getExpression();
-        formatIsValid = Calculations.isValidFormat(theExpression);
+        formatIsValid = Calculations.isValidFormat(expression.getExpression());
         if (!formatIsValid)
             return "redirect:"+ request.getHeader("Referer"); // Format is not valid reset the page.
 
