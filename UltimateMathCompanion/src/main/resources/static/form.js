@@ -1,5 +1,5 @@
 
-function createErrorAlert() {
+const createErrorAlert = function () {
     alert("Invalid format of data\n" +
     "Possible mistakes:\n" +
         "1. The text is empty\n" +
