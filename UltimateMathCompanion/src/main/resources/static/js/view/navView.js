@@ -2,6 +2,7 @@
 class NavView {
     _navEl = document.querySelector('.expressions-nav');
     _btnAdd = document.querySelector('.add')
+    _btnEdit = document.querySelector('.edit')
     _btnDelete = document.querySelector('.delete')
     _exprForm = document.querySelector(".expr-form")
     _expressionsTable = document.querySelector(".table__wrapper")
@@ -32,7 +33,9 @@ class NavView {
 
     _handleBtnDelete() {
         this._promiseTableView.then(tableView =>
-            tableView.getSelectedId);
+        {
+            window.location.href = '/deleteExpression?id=' + tableView.getSelectedId ;
+        });
     }
 
     _handleNavHover(e) {

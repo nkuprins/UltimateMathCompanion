@@ -2,10 +2,10 @@
 class TableView {
 
     _tableRows = document.querySelector('.expressions-table').querySelectorAll('tr');
-    _selectedId = '0';
 
     constructor() {
-        this._selectRow('0');
+        this._selectedId = this._tableRows[0].id;
+        this._selectRow(this._selectedId);
     }
 
     get getSelectedId() {

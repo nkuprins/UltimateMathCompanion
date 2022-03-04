@@ -53,7 +53,7 @@
             <div class="table__wrapper">
             <table class="expressions-table">
                 <tbody>
-                    <tr class="exprRow" th:each="tempExpression, iter: ${theExpression}" th:id="${iter.index}">
+                    <tr class="exprRow" th:each="tempExpression, iter: ${theExpression}" th:id="${tempExpression.getId()}">
                         <td class="table__col--1" th:text="${iter.count}"></td>
                         <td class="table__col--2" th:text="${tempExpression.expression}"></td>
                         <td class="table__col--3" th:text="${tempExpression.answer}"></td>
