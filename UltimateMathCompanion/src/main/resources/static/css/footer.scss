@@ -1,0 +1,23 @@
+.footer {
+  margin: auto;
+  background-color: #383737;
+  color: white;
+  font-size: 1rem;
+  text-align: center;
+}
+.footer__img {
+  padding: 1rem 1rem 0 1rem;
+  width: 4vh;
+  height: 4vh;
+}
+.footer__copyright {
+  padding: 1rem;
+}
+
+.social-media__links {
+  position: relative;
+  display: inline-flex;
+  list-style-type: none;
+}
+
+/*# sourceMappingURL=footer.scss.map */

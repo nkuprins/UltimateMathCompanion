@@ -1,0 +1,94 @@
+
+$color-grad-1: rgba(31, 31, 73, 0.7);
+$color-grad-2: rgba(12, 71, 73, 0.7);
+$color-field: rgba(240, 248, 255, 0.4);
+$color-login-btn: rgb(19, 132, 152);
+$gradient: linear-gradient(180deg, $color-grad-1, $color-grad-2);
+
+$font-name: 'Nunito Sans', sans-serif;
+$font-size-prime: 0.9rem;
+$font-size-head: 1.7rem;
+$form-child-height: 2.2rem;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  font-family: $font-name;
+  background-image: $gradient, url("../images/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 25%;
+  max-height: 40%;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.login {
+  display: grid;
+
+  &__heading {
+    text-align: center;
+    color: white;
+    font-size: $font-size-head;
+    margin-bottom: 2rem;
+  }
+
+  &__field {
+    height: $form-child-height;
+    margin-bottom: 1rem;
+    padding-left: 2.5rem;
+
+    background-size: 1.3rem 1.3rem;
+    background-position: 0.5rem;
+    background-repeat: no-repeat;
+    background-color: $color-field;
+
+    color: white;
+    font-size: $font-size-prime;
+    border: none;
+  }
+
+  ::placeholder {
+    color: white;
+  }
+
+  &__username {
+    background-image: url("../images/username.png");
+  }
+
+  &__password {
+    background-image: url("../images/password.png");
+  }
+
+  &__btn {
+    height: $form-child-height;
+    background: $color-login-btn;
+
+    color: white;
+    font-size: $font-size-prime;
+    border: none;
+  }
+}
+
+footer {
+  position: relative;
+  text-align: center;
+  bottom: -93vh;
+
+  font-size: $font-size-prime;
+  color: white;
+}
+

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/login.css" type="text/css">
+</head>
+<body>
+    <div class="container">
+        <form class="login" th:action="@{/login}" method="post">
+            <h3 class="login__heading">LOGIN</h3>
+            <input id="username" name="username" class="login__field login__username" type="text" placeholder="User name">
+            <input id="password" name="password" class="login__field login__password" type="password" placeholder="Password">
+            <input class="login__btn" type="submit" value="LOGIN">
+        </form>
+    </div>
+    <footer>
+        <div>Ⓒ 2021 All rights reserved. Created by Nikita Kuprins.</div>
+    </footer>
+</body>
+</html>

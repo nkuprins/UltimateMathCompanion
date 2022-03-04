@@ -5,6 +5,7 @@ import com.example.ultimatemathcompanion.datamodel.ExpressionTypes;
 import com.example.ultimatemathcompanion.math.Calculations;
 import com.example.ultimatemathcompanion.service.ExpressionService;
 import com.example.ultimatemathcompanion.service.ExpressionTypesService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,34 +31,42 @@ public class ExpressionController {
         this.expressionTypesService = expressionTypesService;
     }
 
+    @GetMapping("/login")
+    public String showLogin() {
+        return "login";
+    }
+
     @GetMapping("/")
     public String showPage(Model model) {
-
         List<Expression> expressions = expressionService.findAll();
         model.addAttribute("theExpression", expressions);
+        model.addAttribute("formExpression", new Expression());
+
         return "index";
     }
 
-    @GetMapping("/addExpression")
+    @RequestMapping("/addExpression")
+    @ModelAttribute
     public String addExpression(Model model) {
 
         Expression expressions = new Expression();
-        model.addAttribute("theExpression", expressions);
+        expressions.setExpression("govno");
+        model.addAttribute("formExpression", expressions);
         model.addAttribute("formatIsValid", formatIsValid);
         formatIsValid = true;
 
-        return "expression-form";
+        return "redirect:/";
     }
 
     @GetMapping("/updateExpression")
     public String updateExpression(@RequestParam("id") int id, Model model) {
 
         Expression expressions = expressionService.findById(id);
-        model.addAttribute("theExpression", expressions);
-        model.addAttribute("format", formatIsValid);
+        model.addAttribute("formExpression", expressions);
+        model.addAttribute("formatIsValid", formatIsValid);
         formatIsValid = true;
 
-        return "expression-form";
+        return "index";
     }
 
     @GetMapping("/deleteExpression")
@@ -83,11 +92,11 @@ public class ExpressionController {
     }
 
     @PostMapping("/save")
-    public String saveExpression(@ModelAttribute("theExpression") Expression expression, HttpServletRequest request) {
+    public String saveExpression(@ModelAttribute("formExpression") Expression expression, HttpServletRequest request) {
 
         formatIsValid = Calculations.isValidFormat(expression.getExpression());
         if (!formatIsValid)
-            return "redirect:"+ request.getHeader("Referer"); // Format is not valid reset the page.
+            return "redirect:/"; // Format is not valid reset the page.
 
         processExpression(expression);
         expressionService.save(expression);

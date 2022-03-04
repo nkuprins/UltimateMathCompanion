@@ -1,0 +1,316 @@
+
+$color-even-row: #dee4ec;
+$color-selected-dot: #7f8488;
+$color-field-background: rgb(57, 57, 138);
+$color-field-background-hover: #25255b;
+$color-grad-1: rgba(85, 85, 204, 0.9);
+$color-grad-2: rgba(32, 191, 196, 0.73);
+$color-border-shadow-1: rgba(0, 0, 0, 0.1);
+$color-border-shadow-2: rgba(0, 0, 0, 0.2);
+$gradient: linear-gradient(180deg, $color-grad-1, $color-grad-2);
+$color-back: #863737;
+$color-submit: #488637;
+$color-submit-hover: #294d1f;
+$color-back-hover: #4f2020;
+$color-title-1: #40424a;
+$color-title-2: #4f5259;
+$color-form-head: #ffffff;
+
+$font-name: 'Nunito Sans', sans-serif;
+$font-size-prime: 0.9rem;
+$font-size-nav: 1.2rem;
+$border-radius: 1rem;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  font-family: $font-name;
+  font-size: $font-size-prime;
+}
+
+.header {
+  height: 70vh;
+  align-items: center;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+
+  background-image: $gradient;
+  background-repeat: no-repeat;
+  background-size: inherit;
+}
+
+// FORM
+
+.form {
+  display: none;
+  border-width: 6px;
+  border-style: solid;
+  border-color: $color-border-shadow-1;
+  background-color: aliceblue;
+  width: 30%;
+  height: 20vh;
+  margin: auto;
+
+  &__title {
+    color: $color-title-1;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  &__label {
+    color: $color-title-2;
+  }
+
+  &__textfield {
+    margin-top: 0.3rem;
+    width: 100%;
+    height: 7vh;
+    border-radius: 0;
+    border-width: 0;
+  }
+
+  &__result {
+    display: flex;
+    position: absolute;
+    bottom: 6px;
+    width: 30%;
+    border-color: $color-border-shadow-1;
+  }
+
+  &__buttons {
+    width: 50%;
+    height: 4vh;
+    color: white;
+    border-width: 3px;
+    border-color: $color-border-shadow-2;
+  }
+
+  &__back {
+    background-color: $color-back;
+  }
+  &__back:hover {
+    background-color: $color-back-hover;
+  }
+
+  &__submit {
+    background-color: $color-submit;
+  }
+  &__submit:hover {
+    background-color: $color-submit-hover;
+  }
+}
+
+// EXPRESSIONS LIST
+
+.expressions {
+  width: 60%;
+  margin: auto;
+  text-align: center;
+  z-index: 100;
+}
+
+.expressions-nav {
+  position: relative;
+
+  &__links {
+    position: absolute;
+    top: -7vh;
+    left: 0;
+    right: 0;
+    list-style-type: none;
+  }
+
+  &__item {
+    //border-radius: $border-radius;
+    //background-color: $color-field-background;
+    padding: 0.5rem;
+    margin-left: 2rem;
+    border: none;
+    margin-right: 2rem;
+    display: inline;
+    transition: all 0.5s;
+  }
+
+  &__btn {
+    font-size: $font-size-nav;
+    color: aliceblue;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+}
+
+.table__head {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 0 0.6rem 0;
+
+  font-weight: bold;
+  color: white;
+  background-color: $color-field-background;
+  border-radius: $border-radius $border-radius 0 0;
+
+  &--1 {
+    width: 5%;
+  }
+  &--2 {
+    width: 30%;
+  }
+  &--3 {
+    width: 10%;
+  }
+  &--4 {
+    width: 15%;
+  }
+  &--5 {
+    width: 5%;
+  }
+  &--6 {
+    width: 35%;
+  }
+}
+
+.table__wrapper {
+  height: 40vh;
+  overflow-y: scroll;
+}
+
+.expressions-table {
+
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: aliceblue;
+
+  thead {
+    width: 60%;
+    background-color: $color-field-background;
+    color: white;
+  }
+
+  td {
+    padding: 0.6rem;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: $color-even-row;
+  }
+
+}
+
+// CALCULATOR
+
+.calculator {
+  border-width: 6px;
+  border-style: solid;
+  border-color: $color-border-shadow-1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 30vh;
+  height: 40vh;
+
+}
+
+.form-control {
+  display: flex;
+  width: 99%;
+  height: 6.6vh;
+
+  border-radius: 0;
+  border-width: 1px;
+  text-align: right;
+
+  border-color: $color-border-shadow-2;
+  background-color: aliceblue;
+}
+
+.calc__btn-group {
+  display: flex;
+  width: 100%;
+  height: 6.65vh;
+}
+
+.calc__btn {
+  border-radius: 0;
+  border-width: 1px;
+  width: 25%;
+
+  border-color: $color-border-shadow-2;
+  color: aliceblue;
+  background-color: $color-field-background;
+
+  cursor: auto;
+}
+
+.calc__btn:hover {
+  background-color: $color-field-background-hover;
+}
+
+.calc__btn-big {
+    width: 51%;
+}
+
+// Slider
+
+.slide {
+  transition: 1s;
+  &__hidden {
+    opacity: 0;
+  }
+}
+
+.slider__btn {
+  position: absolute;
+
+  border: none;
+  background: aliceblue;
+  border-radius: 50%;
+  height: 3.5rem;
+  width: 3.5rem;
+  cursor: pointer;
+  font-size: 2rem;
+
+  &--left {
+    left: 12%;
+  }
+
+  &--right {
+    right: 12%;
+  }
+}
+
+.dots {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  display: flex;
+
+  transform: translateX(-50%);
+}
+
+.dots__dot {
+  border: none;
+  background-color: aliceblue;
+  opacity: 0.7;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 50%;
+  margin-right: 0.3rem;
+  margin-left: 0.3rem;
+  cursor: pointer;
+
+  transition: all 0.5s;
+}
+
+.dots__dot--active {
+  background-color: $color-selected-dot;
+  opacity: 1;
+}
+

@@ -1,0 +1,72 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+  background-image: linear-gradient(180deg, rgba(31, 31, 73, 0.7), rgba(12, 71, 73, 0.7)), url("../images/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 25%;
+  max-height: 40%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.login {
+  display: grid;
+}
+.login__heading {
+  text-align: center;
+  color: white;
+  font-size: 1.7rem;
+  margin-bottom: 2rem;
+}
+.login__field {
+  height: 2.2rem;
+  margin-bottom: 1rem;
+  padding-left: 2.5rem;
+  background-size: 1.3rem 1.3rem;
+  background-position: 0.5rem;
+  background-repeat: no-repeat;
+  background-color: rgba(240, 248, 255, 0.4);
+  color: white;
+  font-size: 0.9rem;
+  border: none;
+}
+.login ::placeholder {
+  color: white;
+}
+.login__username {
+  background-image: url("../images/username.png");
+}
+.login__password {
+  background-image: url("../images/password.png");
+}
+.login__btn {
+  height: 2.2rem;
+  background: #138498;
+  color: white;
+  font-size: 0.9rem;
+  border: none;
+}
+
+footer {
+  position: relative;
+  text-align: center;
+  bottom: -93vh;
+  font-size: 0.9rem;
+  color: white;
+}
+
+/*# sourceMappingURL=login.css.map */

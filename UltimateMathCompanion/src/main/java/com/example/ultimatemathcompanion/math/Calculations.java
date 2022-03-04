@@ -122,12 +122,11 @@ public final class Calculations {
             }
 
             if (s.chars().anyMatch(item -> item == ' ')) {
-                // Variable s is expression(with / or * operators. For example, 2*3/2)
-                // Recursion of calculate() will not be forever, as splitByOperationsOrder() will split
-                // new expression(2*3/2) by spaces, so it will definitely return BigDecimal.
+                // Variable s is expression(with / or * operators. For example, s='2 * 3 / 2'). 
+		        // Hence, recursive case, we should split and count s='2 * 3 / 2'
                 temp = calculate(s);
             } else {
-                // Variable s is just number
+                // Variable s is number
                 temp = new BigDecimal(s);
             }
 

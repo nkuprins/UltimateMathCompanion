@@ -2,91 +2,159 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>UltimateMathCompanion</title>
-    <script src="main.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-          crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
+    <title>MathCompanion</title>
+    <link rel="stylesheet" href="/css/header.css" type="text/css">
+    <link rel="stylesheet" href="/css/section.css" type="text/css">
+    <link rel="stylesheet" href="/css/footer.css" type="text/css">
+
+    <script defer src="/js/controller.js" type="module"></script>
+
+<!--    <script defer th:inline="javascript">-->
+<!--        const formatIsValid = [[${formatIsValid}]];-->
+<!--        window.onload = function() {-->
+<!--            if (!formatIsValid)-->
+<!--                setTimeout(createErrorAlert, 100);-->
+<!--        };-->
+<!--    </script>-->
+
 </head>
 <body>
-<div class="d-flex vh-100 container">
-    <div class="align-self-center position-fixed">
-        <form id="calculator" name="calculator">
-            <div class="btn-group-vertical w-100" role="group">
-                <label>
-                    <input class="form-control" type="text"  name="ans" value="">
-                </label>
-                <div class="btn-group" role="group">
-                    <input class="btn btn-secondary col-2" type="reset" value="AC">
-                    <input class="btn btn-secondary col-2" type="button" value="+/-" onclick="document.calculator.ans.value*=-1">
-                    <input class="btn btn-secondary col-2" type="button" value="%" onclick="document.calculator.ans.value/=100">
-                    <input class="btn btn-info col-1" type="button" value="/" onclick="document.calculator.ans.value+='/'">
-                </div>
-                <div class="btn-group" role="group">
-                    <input class="btn btn-dark col-2" type="button" value="7" onclick="document.calculator.ans.value+='7'">
-                    <input class="btn btn-dark col-2" type="button" value="8" onclick="document.calculator.ans.value+='8'">
-                    <input class="btn btn-dark col-2" type="button" value="9" onclick="document.calculator.ans.value+='9'">
-                    <input class="btn btn-info col-1" type="button" value="*" onclick="document.calculator.ans.value+='*'">
-                </div>
-                <div class="btn-group" role="group">
-                    <input class="btn btn-dark col-2" type="button" value="4" onclick="document.calculator.ans.value+='4'">
-                    <input class="btn btn-dark col-2" type="button" value="5" onclick="document.calculator.ans.value+='5'">
-                    <input class="btn btn-dark col-2" type="button" value="6" onclick="document.calculator.ans.value+='6'">
-                    <input class="btn btn-info col-1" type="button" value="-" onclick="document.calculator.ans.value+='-'">
-                </div>
-                <div class="btn-group" role="group">
-                    <input class="btn btn-dark col-2" type="button" value="1" onclick="document.calculator.ans.value+='1'">
-                    <input class="btn btn-dark col-2" type="button" value="2" onclick="document.calculator.ans.value+='2'">
-                    <input class="btn btn-dark col-2" type="button" value="3" onclick="document.calculator.ans.value+='3'">
-                    <input class="btn btn-info col-1" type="button" value="+" onclick="document.calculator.ans.value+='+'">
-                </div>
-                <div class="btn-group" role="group">
-                    <input class="btn btn-dark col-5" type="button" value="0" onclick="document.calculator.ans.value+='0'">
-                    <input class="btn btn-dark col-2" type="button" value="." onclick="document.calculator.ans.value+='.'">
-                    <input class="btn btn-info col-1" type="button" value="="
-                           onclick="document.calculator.ans.value=eval(document.calculator.ans.value)">
-                </div>
+    <header class="header">
+        <div class="slide expressions slide__hidden">
+            <nav class="expressions-nav">
+                <ul class="expressions-nav__links">
+                    <li class="expressions-nav__item"><button class="expressions-nav__btn add">Add</button></li>
+                    <li class="expressions-nav__item"><button class="expressions-nav__btn edit">Edit</button></li>
+                    <li class="expressions-nav__item"><button class="expressions-nav__btn delete">Delete</button></li>
+                </ul>
+            </nav>
+            <div class="table__head">
+                <div class="table__col--1">№</div>
+                <div class="table__col--2">Expression</div>
+                <div class="table__col--3">Answer</div>
+                <div class="table__col--4">Date</div>
+                <div class="table__col--5">Type</div>
+                <div class="table__col--6">Complexity</div>
             </div>
-        </form>
-    </div>
+            <div class="expr-form">
 
-    <div class="ms-auto mt-4 w-75">
-        <div class="btn-group w-100">
-            <a th:href="@{/addExpression}" class="btn btn-info">Add New</a>
-            <a th:onclick="redirectWithId('/updateExpression')" class="btn btn-info">Update</a>
-            <a class="btn btn-info" onclick="if (confirm('Are you sure you want to delete this?')) redirectWithId('/deleteExpression');">
-                Delete
-            </a>
+                <form th:action="@{/save}" th:object="${formExpression}" method="POST">
+                    <h2 class="expr-form__title">Add Expression</h2>
+                    <input type="hidden" th:field="*{id}">
+                    <label class="expr-form__label" for="expr">Expression</label><br>
+                    <input class="expr-form__textfield" th:field="*{expression}"
+                           id="expr" type="text" placeholder="2 + 2 / 4 - 8 + 100 * 2">
+                    <div class="expr-form__result">
+                        <button class="expr-form__buttons expr-form__back"  type="button">Back</button>
+                        <button class="expr-form__buttons expr-form__submit" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+            <div class="table__wrapper">
+            <table class="expressions-table">
+                <tbody>
+                    <tr class="exprRow" th:each="tempExpression, iter: ${theExpression}" th:id="${iter.index}">
+                        <td class="table__col--1" th:text="${iter.count}"></td>
+                        <td class="table__col--2" th:text="${tempExpression.expression}"></td>
+                        <td class="table__col--3" th:text="${tempExpression.answer}"></td>
+                        <td class="table__col--4" th:text="${tempExpression.date}"></td>
+                        <td class="table__col--5" th:text="${tempExpression.expressionTypes.getType()}"></td>
+                        <td class="table__col--6" th:text="${tempExpression.expressionTypes.expressionComplexity.getDescription()}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
         </div>
+        <div class="slide calculator">
+            <form name="calculatorForm">
+                    <label>
+                        <input class="form-control" type="text"  name="ans" value="">
+                    </label>
+                    <div class="calc__btn-group">
+                        <input class="calc__btn" type="reset" value="AC">
+                        <input class="calc__btn" type="button" value="+/-" onclick="document.calculatorForm.ans.value*=-1">
+                        <input class="calc__btn" type="button" value="%" onclick="document.calculatorForm.ans.value/=100">
+                        <input class="calc__btn" type="button" value="/" onclick="document.calculatorForm.ans.value+='/'">
+                    </div>
+                    <div class="calc__btn-group">
+                        <input class="calc__btn" type="button" value="7" onclick="document.calculatorForm.ans.value+='7'">
+                        <input class="calc__btn" type="button" value="8" onclick="document.calculatorForm.ans.value+='8'">
+                        <input class="calc__btn" type="button" value="9" onclick="document.calculatorForm.ans.value+='9'">
+                        <input class="calc__btn" type="button" value="*" onclick="document.calculatorForm.ans.value+='*'">
+                    </div>
+                    <div class="calc__btn-group">
+                        <input class="calc__btn" type="button" value="4" onclick="document.calculatorForm.ans.value+='4'">
+                        <input class="calc__btn" type="button" value="5" onclick="document.calculatorForm.ans.value+='5'">
+                        <input class="calc__btn" type="button" value="6" onclick="document.calculatorForm.ans.value+='6'">
+                        <input class="calc__btn" type="button" value="-" onclick="document.calculatorForm.ans.value+='-'">
+                    </div>
+                    <div class="calc__btn-group">
+                        <input class="calc__btn" type="button" value="1" onclick="document.calculatorForm.ans.value+='1'">
+                        <input class="calc__btn" type="button" value="2" onclick="document.calculatorForm.ans.value+='2'">
+                        <input class="calc__btn" type="button" value="3" onclick="document.calculatorForm.ans.value+='3'">
+                        <input class="calc__btn" type="button" value="+" onclick="document.calculatorForm.ans.value+='+'">
+                    </div>
+                    <div class="calc__btn-group">
+                        <input class="calc__btn calc__btn-big" type="button" value="0" onclick="document.calculatorForm.ans.value+='0'">
+                        <input class="calc__btn" type="button" value="." onclick="document.calculatorForm.ans.value+='.'">
+                        <input class="calc__btn" type="button" value="="
+                               onclick="document.calculatorForm.ans.value=eval(document.calculatorForm.ans.value)">
+                    </div>
+            </form>
+        </div>
+        <button class="slider__btn slider__btn--left">&larr;</button>
+        <button class="slider__btn slider__btn--right">&rarr;</button>
+        <div class="dots"></div>
+    </header>
 
-        <table id="expressions-list" class="table table-bordered table-striped table-hover table-active">
-        <thead class="thead-dark">
-        <tr class="text-center">
-            <th class="col-auto">№</th>
-            <th class="col-4">Expression</th>
-            <th class="col-2">Answer</th>
-            <th class="col-2">Date</th>
-            <th class="col-auto">Type</th>
-            <th class="col-5">Complexity</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="text-center" th:each="tempExpression, iter: ${theExpression}" th:id="${tempExpression.getId()}"
-            th:onclick="|selectRow('${tempExpression.getId()}')|">
-                <td th:text="${iter.count}"></td>
-                <td th:text="${tempExpression.expression}"></td>
-                <td th:text="${tempExpression.answer}"></td>
-                <td th:text="${tempExpression.date}"></td>
-                <td th:text="${tempExpression.expressionTypes.getType()}"></td>
-                <td th:text="${tempExpression.expressionTypes.expressionComplexity.getDescription()}"></td>
-            </tr>
-        </tbody>
-        </table>
-    </div>
-</div>
+    <section class="section" id="section--1">
+        <h2 class="section__title">How to use?</h2>
+        <div>
+            <h4 class="section__sub__title">Expression solver</h4>
+            <p class="section__description">
+                You can add, edit or delete expression. Note that expression should
+                have spaces between all its characters.
+            </p>
+            <h4 class="section__sub__title">Calculator</h4>
+            <p class="section__description">
+                Perform incredible arithmetic operations on numbers. You can add,
+                subtract, multiply, divide and many more.
+            </p>
+            <img data-name="section-image1" class="section__image" src="images/section-image1.png" alt="Math Book"/>
+        </div>
+    </section>
+
+    <section class="section" id="section--2">
+        <h2 class="section__title">Motivation</h2>
+        <div>
+            <p class="section__description">
+                With this web application, you no longer have to worry about solving expressions.
+                The amazing algorithm will do it for you.
+                Moreover, there is a super convenient calculator.
+            </p>
+            <img data-name="section-image2" class="section__image" src="images/section-image2.png" alt="Arrow Up"/>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <ul class="social-media__links">
+            <li class="social-media__item">
+                <a href="https://www.instagram.com/noufeet/">
+                    <img class="footer__img" src="images/social-media/inst.png" alt="instagram"/>
+                </a>
+            </li>
+            <li class="social-media__item">
+                <a href="https://github.com/NouFeet">
+                    <img class="footer__img" src="images/social-media/github.png" alt="github"/>
+                </a>
+            </li>
+            <li class="social-media__item">
+                <a href="https://www.linkedin.com/in/nikita-kuprins-1b3645217/">
+                    <img class="footer__img" src="images/social-media/linked.png" alt="linkedin"/>
+                </a>
+            </li>
+        </ul>
+        <div class="footer__copyright">Ⓒ 2021 All rights reserved. Created by Nikita Kuprins.</div>
+    </footer>
 </body>
 </html>
