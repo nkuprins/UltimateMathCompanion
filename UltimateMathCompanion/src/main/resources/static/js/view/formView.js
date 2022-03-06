@@ -24,6 +24,7 @@ class FormView {
         this._exprForm.style.display = 'none';
         this._expressionsTable.style.display = 'inherit';
         this._expressionsTableHeader.style.display = 'flex';
+        window.history.pushState('','','/');
     }
 
     _handleFormText() {

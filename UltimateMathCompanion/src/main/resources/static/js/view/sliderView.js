@@ -79,4 +79,8 @@ class SliderView {
     }
 }
 
+setTimeout( () => {
+    document.querySelector('.calculator').style.display = 'block';
+}, 500);
+
 export default new SliderView();

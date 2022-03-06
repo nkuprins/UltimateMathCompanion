@@ -39,7 +39,7 @@
             <div class="expr-form">
 
                 <form th:action="@{/save}" th:object="${formExpression}" method="POST">
-                    <h2 class="expr-form__title">Add Expression</h2>
+                    <h2 class="expr-form__title">Expression Form</h2>
                     <input type="hidden" th:field="*{id}">
                     <label class="expr-form__label" for="expr">Expression</label><br>
                     <input class="expr-form__textfield" th:field="*{expression}"

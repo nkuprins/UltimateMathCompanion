@@ -21,19 +21,32 @@ class NavView {
         this._btnAdd.addEventListener('click', this._handleBtnAdd.bind(this))
     }
 
+    addHandlerBtnEdit() {
+        this._btnEdit.addEventListener('click', this._handleBtnEdit.bind(this))
+    }
+
     addHandlerBtnDelete() {
         this._btnDelete.addEventListener('click', this._handleBtnDelete.bind(this))
     }
 
-    _handleBtnAdd() {
+    showForm() {
         this._exprForm.style.display = 'inherit';
         this._expressionsTable.style.display = 'none';
         this._expressionsTableHeader.style.display = 'none';
     }
 
+    _handleBtnAdd() {
+        this.showForm();
+    }
+
+    _handleBtnEdit() {
+        this._promiseTableView.then(tableView => {
+            window.location.href = '/?id=' + tableView.getSelectedId;
+        });
+    }
+
     _handleBtnDelete() {
-        this._promiseTableView.then(tableView =>
-        {
+        this._promiseTableView.then(tableView => {
             window.location.href = '/deleteExpression?id=' + tableView.getSelectedId ;
         });
     }
@@ -50,4 +63,10 @@ class NavView {
     }
 }
 
-export default new NavView();
+const navView = new NavView();
+
+if (window.location.href.indexOf('?') !== -1) {
+    navView.showForm();
+}
+
+export default navView;

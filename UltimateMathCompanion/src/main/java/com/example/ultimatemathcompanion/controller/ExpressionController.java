@@ -37,38 +37,15 @@ public class ExpressionController {
     }
 
     @GetMapping("/")
-    public String showPage(Model model) {
+    public String showPage(@RequestParam(value = "id", required = false) String id, Model model) {
         List<Expression> expressions = expressionService.findAll();
         model.addAttribute("theExpression", expressions);
-        model.addAttribute("formExpression", new Expression());
+        Expression formExpression = id == null ? new Expression() : expressionService.findById(Integer.parseInt(id));
+        model.addAttribute("formExpression", formExpression);
 
         return "index";
     }
-
-    @RequestMapping("/addExpression")
-    @ModelAttribute
-    public String addExpression(Model model) {
-
-        Expression expressions = new Expression();
-        expressions.setExpression("govno");
-        model.addAttribute("formExpression", expressions);
-        model.addAttribute("formatIsValid", formatIsValid);
-        formatIsValid = true;
-
-        return "redirect:/";
-    }
-
-    @GetMapping("/updateExpression")
-    public String updateExpression(@RequestParam("id") int id, Model model) {
-
-        Expression expressions = expressionService.findById(id);
-        model.addAttribute("formExpression", expressions);
-        model.addAttribute("formatIsValid", formatIsValid);
-        formatIsValid = true;
-
-        return "index";
-    }
-
+    
     @GetMapping("/deleteExpression")
     public String deleteExpression(@RequestParam("id") int id) {
 

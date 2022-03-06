@@ -8,6 +8,7 @@ const init = function () {
     navView.addHandlerNavHover();
     navView.addHandlerBtnAdd();
     navView.addHandlerBtnDelete();
+    navView.addHandlerBtnEdit();
     formView.addHandlerBtnBack();
     formView.addHandlerBtnSubmit();
     formView.addHandlerFormText();
@@ -20,4 +21,3 @@ const init = function () {
 };
 
 init();
-export default tableView;
