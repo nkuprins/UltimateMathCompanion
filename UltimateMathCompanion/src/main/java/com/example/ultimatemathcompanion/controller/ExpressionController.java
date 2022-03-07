@@ -1,83 +1,65 @@
 package com.example.ultimatemathcompanion.controller;
 
 import com.example.ultimatemathcompanion.datamodel.Expression;
-import com.example.ultimatemathcompanion.datamodel.ExpressionTypes;
-import com.example.ultimatemathcompanion.math.Calculations;
-import com.example.ultimatemathcompanion.service.ExpressionService;
-import com.example.ultimatemathcompanion.service.ExpressionTypesService;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
+import com.example.ultimatemathcompanion.math.Calculate;
+import com.example.ultimatemathcompanion.service.TypesService;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-@Controller
 public class ExpressionController {
 
-    private final ExpressionService expressionService;
-    private final ExpressionTypesService expressionTypesService;
+    // Valid format is: 2 / 3 + 1 * 4
+    // No redundant spaces or unclear symbols.
+    // All numbers are only integers.
+    private final Pattern validFormat = Pattern.compile("^-?\\d+( [+\\-*/] -?\\d+)+$");
 
-    // Keeps track if text in form field has valid format(SERVER-SIDE validation).
-    private boolean formatIsValid = true;
+    @AllArgsConstructor
+    private enum ExprTypes {
+        SumSubtract(1),             // +-
+        SumSubtrDivMultipl(2),      // */+-
+        DivisionMultipl(3),         // */
+        LongExpression(4);          // */+-*/+-
 
-    public ExpressionController(ExpressionService expressionService, ExpressionTypesService expressionTypesService) {
-        this.expressionService = expressionService;
-        this.expressionTypesService = expressionTypesService;
+        @Getter private final int id;
     }
 
-    @GetMapping("/login")
-    public String showLogin() {
-        return "login";
+    private int getExpressionTypeId(String expression) {
+
+        if (Calculate.countDigits(expression) >= 30)
+            return ExprTypes.LongExpression.id;
+
+        Set<Character> signs = Calculate.getMathSigns(expression);
+
+        if (!signs.contains('/') && !signs.contains('*'))
+            return ExprTypes.SumSubtract.id;
+
+        if (!signs.contains('+') && !signs.contains('-'))
+            return ExprTypes.DivisionMultipl.id;
+
+        return ExprTypes.SumSubtrDivMultipl.id;
     }
 
-    @GetMapping("/")
-    public String showPage(@RequestParam(value = "id", required = false) String id, Model model) {
-        List<Expression> expressions = expressionService.findAll();
-        model.addAttribute("theExpression", expressions);
-        Expression formExpression = id == null ? new Expression() : expressionService.findById(Integer.parseInt(id));
-        model.addAttribute("formExpression", formExpression);
-
-        return "index";
-    }
-    
-    @GetMapping("/deleteExpression")
-    public String deleteExpression(@RequestParam("id") int id) {
-
-        expressionService.deleteById(id);
-        return "redirect:/";
-    }
-
-    private void processExpression(Expression expression) {
+    public void processExpression(Expression expression, TypesService typesService) {
 
         String theExpression = expression.getExpression();
-        BigDecimal answer = Calculations.calculate(theExpression);
-        expression.setAnswer(answer);
+        expression.setAnswer(Calculate.solve(theExpression));
 
-        int typeId = Calculations.getExpressionTypeId(theExpression);
-        ExpressionTypes expressionTypes = expressionTypesService.findById(typeId);
-        expression.setExpressionTypes(expressionTypes);
+        int typeId = getExpressionTypeId(theExpression);
+        expression.setTypes(typesService.findById(typeId));
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        Date currentDate = Date.valueOf(LocalDateTime.now().format(dateTimeFormatter));
-        expression.setDate(currentDate);
+        expression.setDate(Date.valueOf(LocalDateTime.now().format(dateTimeFormatter)));
     }
 
-    @PostMapping("/save")
-    public String saveExpression(@ModelAttribute("formExpression") Expression expression, HttpServletRequest request) {
+    public boolean isValidFormat(String expression) {
 
-        formatIsValid = Calculations.isValidFormat(expression.getExpression());
-        if (!formatIsValid)
-            return "redirect:/"; // Format is not valid reset the page.
-
-        processExpression(expression);
-        expressionService.save(expression);
-        return "redirect:/";
+        Matcher matcher = validFormat.matcher(expression);
+        return matcher.matches();
     }
-
 }

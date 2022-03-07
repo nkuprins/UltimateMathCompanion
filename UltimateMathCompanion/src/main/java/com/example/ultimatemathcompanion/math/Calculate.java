@@ -20,63 +20,25 @@ import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public final class Calculations {
+// Utility class for Math calculations.
+public final class Calculate {
 
-    // Valid format is: 2 / 3 + 1 * 4
-    // No redundant spaces or unclear symbols.
-    // All numbers are only integers.
-    private static final Pattern validFormat = Pattern.compile("^-?\\d+( [+\\-*/] -?\\d+)+$");
     private static final List<Character> mathSigns = Arrays.asList('+', '-', '*', 'x', '/', '÷');
 
-    private enum Types {
-        SumSubtract(1),             // +-
-        SumSubtrDivMultipl(2),      // */+-
-        DivisionMultipl(3),         // */
-        LongExpression(4);          // */+-*/+-
+    private Calculate() {}
 
-        private final int id;
-
-        Types(int id) {
-            this.id = id;
-        }
-    }
-
-    private Calculations() {}
-
-    private static long countDigits(String str) {
+    public static long countDigits(String str) {
         return str.chars().filter(Character::isDigit).count();
     }
 
-    private static Set<Character> getExpressionSigns(String str) {
+    public static Set<Character> getMathSigns(String str) {
         return Arrays.stream(str.split(" "))
                 .filter(s -> s.length() == 1)
                 .map(s -> s.charAt(0))
                 .filter(mathSigns::contains)
                 .collect(Collectors.toSet());
-    }
-
-    public static int getExpressionTypeId(String str) {
-        if (countDigits(str) >= 30)
-            return Types.LongExpression.id;
-
-        Set<Character> signs = getExpressionSigns(str);
-
-        if (!signs.contains('/') && !signs.contains('*'))
-            return Types.SumSubtract.id;
-
-        if (!signs.contains('+') && !signs.contains('-'))
-            return Types.DivisionMultipl.id;
-
-        return Types.SumSubtrDivMultipl.id;
-    }
-
-    public static boolean isValidFormat(String str) {
-        Matcher matcher = validFormat.matcher(str);
-        return matcher.matches();
     }
 
     private static String[] splitByOperationsOrder(String expression) {
@@ -86,14 +48,14 @@ public final class Calculations {
         //
         // Input: 2 * 3 / 5 * 7
         // Output: [ 2, * , 3 , / , 5 , * , 7 ]
-        Set<Character> signs = getExpressionSigns(expression);
+        Set<Character> signs = getMathSigns(expression);
         if (!signs.contains('+') && !signs.contains('-'))
             return expression.split(" ");
 
         return expression.split("(?<=[^/*])\\s(?=[^/*])");
     }
 
-    private static BigDecimal calculate(BigDecimal num1, BigDecimal num2, String operation) {
+    private static BigDecimal solve(BigDecimal num1, BigDecimal num2, String operation) {
         switch (operation) {
             case "+":
                 return num1.add(num2);
@@ -108,7 +70,7 @@ public final class Calculations {
         }
     }
 
-    public static BigDecimal calculate(String expression) {
+    public static BigDecimal solve(String expression) {
         BigDecimal result = BigDecimal.ZERO;
         BigDecimal temp;
         String operation = "+";
@@ -124,13 +86,13 @@ public final class Calculations {
             if (s.chars().anyMatch(item -> item == ' ')) {
                 // Variable s is expression(with / or * operators. For example, s='2 * 3 / 2'). 
 		        // Hence, recursive case, we should split and count s='2 * 3 / 2'
-                temp = calculate(s);
+                temp = solve(s);
             } else {
                 // Variable s is number
                 temp = new BigDecimal(s);
             }
 
-            result = calculate(result, temp, operation);
+            result = solve(result, temp, operation);
         }
 
         return result;

@@ -1,10 +1,8 @@
 package com.example.ultimatemathcompanion.dao;
 
-import com.example.ultimatemathcompanion.datamodel.ExpressionTypes;
+import com.example.ultimatemathcompanion.datamodel.Types;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-public interface ExpressionTypesRepository extends JpaRepository<ExpressionTypes, Integer> {
+public interface ExpressionTypesRepository extends JpaRepository<Types, Integer> {
 
 }

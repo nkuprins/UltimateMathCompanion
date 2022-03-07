@@ -17,12 +17,19 @@
 package com.example.ultimatemathcompanion.datamodel;
 
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
 @Table(name = "expressions")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Expression {
 
     @Id
@@ -43,54 +50,12 @@ public class Expression {
             CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH })
     @JoinColumn(name = "type")
-    private ExpressionTypes expressionTypes;
+    private Types types;
 
-    public Expression() {}
-
-    public Expression(String expression, BigDecimal answer, Date date, ExpressionTypes expressionTypes) {
+    public Expression(String expression, BigDecimal answer, Date date, Types types) {
         this.expression = expression;
         this.answer = answer;
         this.date = date;
-        this.expressionTypes = expressionTypes;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int primaryKey) {
-        this.id = primaryKey;
-    }
-
-    public String getExpression() {
-        return expression;
-    }
-
-    public void setExpression(String expression) {
-        this.expression = expression;
-    }
-
-    public BigDecimal getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(BigDecimal answer) {
-        this.answer = answer;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public ExpressionTypes getExpressionTypes() {
-        return expressionTypes;
-    }
-
-    public void setExpressionTypes(ExpressionTypes expressionTypes) {
-        this.expressionTypes = expressionTypes;
+        this.types = types;
     }
 }
