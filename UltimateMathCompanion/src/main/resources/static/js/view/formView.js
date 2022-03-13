@@ -32,7 +32,7 @@ class FormView {
     }
 
     _handleBtnSubmit() {
-        const expressionPattern = /^-?\d+( [+\-*/] -?\d+)+$/;
+        const expressionPattern = /^-?\d+( [+\-*/] -?\d+)+$/; // CLIENT SIDE VALIDATION
         if (!expressionPattern.test(this._exprFormText.value)) {
             this._exprFormText.setCustomValidity(this._customErrorPopup());
             return false;

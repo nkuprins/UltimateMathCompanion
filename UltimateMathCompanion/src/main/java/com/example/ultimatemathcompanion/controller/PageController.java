@@ -48,7 +48,7 @@ public class PageController {
     public String saveExpression(@ModelAttribute("formExpression") Expression expression) {
 
         if (!expressionController.isValidFormat(expression.getExpression()))
-            return "redirect:/"; // Format is not valid reset the page.
+            return "redirect:/"; // SERVER SIDE VALIDATION. If format is not valid reset the page.
 
         expressionController.processExpression(expression, typesService);
         expressionService.save(expression);
