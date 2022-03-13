@@ -8,8 +8,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 
 @SpringBootTest
@@ -49,6 +47,6 @@ class UltimateMathCompanionApplicationTests {
             "2 + 2=4"
     }, delimiter = '=')
     public void calculateWithString(String expressions, BigDecimal result) {
-        Assertions.assertEquals(result, Calculate.solve(expressions));
+        Assertions.assertEquals(result, Calculate.solveExpression(expressions));
     }
 }

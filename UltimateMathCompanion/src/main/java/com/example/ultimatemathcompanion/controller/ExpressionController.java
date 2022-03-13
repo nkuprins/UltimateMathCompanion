@@ -48,7 +48,7 @@ public class ExpressionController {
     public void processExpression(Expression expression, TypesService typesService) {
 
         String theExpression = expression.getExpression();
-        expression.setAnswer(Calculate.solve(theExpression));
+        expression.setAnswer(Calculate.solveExpression(theExpression));
 
         int typeId = getExpressionTypeId(theExpression);
         expression.setTypes(typesService.findById(typeId));

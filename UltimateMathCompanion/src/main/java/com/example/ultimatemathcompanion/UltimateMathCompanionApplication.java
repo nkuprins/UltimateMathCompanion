@@ -13,16 +13,18 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 @SpringBootApplication
+@PropertySource("classpath:application.properties")
 public class UltimateMathCompanionApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(UltimateMathCompanionApplication.class, args);
     }
 
-    private Environment env;
+    private final Environment env;
 
     public UltimateMathCompanionApplication(Environment env) {
         this.env = env;
@@ -43,13 +45,16 @@ public class UltimateMathCompanionApplication extends SpringBootServletInitializ
         dataSource.setUser(env.getProperty("spring.datasource.username"));
         dataSource.setPassword(env.getProperty("spring.datasource.password"));
 
-        dataSource.setInitialPoolSize(Integer.parseInt(env.getProperty("connection.pool.initialPoolSize")));
-        dataSource.setMinPoolSize(Integer.parseInt(env.getProperty("connection.pool.minPoolSize")));
-        dataSource.setMaxPoolSize(Integer.parseInt(env.getProperty("connection.pool.maxPoolSize")));
-        dataSource.setMaxIdleTime(Integer.parseInt(env.getProperty("connection.pool.maxIdleTime")));
+        dataSource.setInitialPoolSize(propertyToInt("connection.pool.initialPoolSize"));
+        dataSource.setMinPoolSize(propertyToInt("connection.pool.minPoolSize"));
+        dataSource.setMaxPoolSize(propertyToInt("connection.pool.maxPoolSize"));
+        dataSource.setMaxIdleTime(propertyToInt("connection.pool.maxIdleTime"));
 
         return dataSource;
     }
 
-    
+    private int propertyToInt(String str) {
+        return Integer.parseInt(Objects.requireNonNull(env.getProperty(str)));
+    }
+
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class ExpressionServiceImpl implements ExpressionService {
 
-    private ExpressionRepository expressionRepository;
+    private final ExpressionRepository expressionRepository;
 
     public ExpressionServiceImpl(ExpressionRepository expressionRepository) {
         this.expressionRepository = expressionRepository;

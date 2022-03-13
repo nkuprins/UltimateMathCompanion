@@ -41,7 +41,7 @@ public final class Calculate {
                 .collect(Collectors.toSet());
     }
 
-    private static String[] splitByOperationsOrder(String expression) {
+    private static String[] splitExpression(String expression) {
         // Splits expression by math order.
         // Input: 2 * 3 - 1 / 3 + 2
         // Output: [ 2 * 3, - , 1 / 3 , + , 2 ]
@@ -55,7 +55,7 @@ public final class Calculate {
         return expression.split("(?<=[^/*])\\s(?=[^/*])");
     }
 
-    private static BigDecimal solve(BigDecimal num1, BigDecimal num2, String operation) {
+    private static BigDecimal solveExpression(BigDecimal num1, BigDecimal num2, String operation) {
         switch (operation) {
             case "+":
                 return num1.add(num2);
@@ -70,11 +70,11 @@ public final class Calculate {
         }
     }
 
-    public static BigDecimal solve(String expression) {
+    public static BigDecimal solveExpression(String expression) {
         BigDecimal result = BigDecimal.ZERO;
         BigDecimal temp;
         String operation = "+";
-        String[] expressionOrders = splitByOperationsOrder(expression);
+        String[] expressionOrders = splitExpression(expression);
 
         for (String s : expressionOrders) {
             if (s.length() == 1 && mathSigns.contains(s.charAt(0))) {
@@ -86,13 +86,13 @@ public final class Calculate {
             if (s.chars().anyMatch(item -> item == ' ')) {
                 // Variable s is expression(with / or * operators. For example, s='2 * 3 / 2'). 
 		        // Hence, recursive case, we should split and count s='2 * 3 / 2'
-                temp = solve(s);
+                temp = solveExpression(s);
             } else {
                 // Variable s is number
                 temp = new BigDecimal(s);
             }
 
-            result = solve(result, temp, operation);
+            result = solveExpression(result, temp, operation);
         }
 
         return result;
