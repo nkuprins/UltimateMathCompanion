@@ -1,6 +1,7 @@
 package com.example.ultimatemathcompanion.controller;
 
 import com.example.ultimatemathcompanion.datamodel.Expression;
+import com.example.ultimatemathcompanion.datamodel.Types;
 import com.example.ultimatemathcompanion.math.Calculate;
 import com.example.ultimatemathcompanion.service.TypesService;
 import lombok.AllArgsConstructor;
@@ -19,30 +20,20 @@ public class ExpressionController {
     // All numbers are only integers.
     private final Pattern validFormat = Pattern.compile("^-?\\d+( [+\\-*/] -?\\d+)+$");
 
-    @AllArgsConstructor
-    private enum ExprTypes {
-        SumSubtract(1),             // +-
-        SumSubtrDivMultipl(2),      // */+-
-        DivisionMultipl(3),         // */
-        LongExpression(4);          // */+-*/+-
-
-        @Getter private final int id;
-    }
-
     private int getExpressionTypeId(String expression) {
 
         if (Calculate.countDigits(expression) >= 30)
-            return ExprTypes.LongExpression.id;
+            return Types.Kinds.LongExpression.getId();
 
         Set<Character> signs = Calculate.getMathSigns(expression);
 
         if (!signs.contains('/') && !signs.contains('*'))
-            return ExprTypes.SumSubtract.id;
+            return Types.Kinds.SumSubtract.getId();
 
         if (!signs.contains('+') && !signs.contains('-'))
-            return ExprTypes.DivisionMultipl.id;
+            return Types.Kinds.DivisionMultipl.getId();
 
-        return ExprTypes.SumSubtrDivMultipl.id;
+        return Types.Kinds.SumSubtrDivMultipl.getId();
     }
 
     public void processExpression(Expression expression, TypesService typesService) {

@@ -20,14 +20,18 @@ import java.util.logging.Logger;
 @PropertySource("classpath:application.properties")
 public class UltimateMathCompanionApplication extends SpringBootServletInitializer {
 
-    public static void main(String[] args) {
-        SpringApplication.run(UltimateMathCompanionApplication.class, args);
-    }
-
     private final Environment env;
 
     public UltimateMathCompanionApplication(Environment env) {
         this.env = env;
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(UltimateMathCompanionApplication.class, args);
+    }
+
+    private int propertyToInt(String str) {
+        return Integer.parseInt(Objects.requireNonNull(env.getProperty(str)));
     }
 
     @Bean
@@ -53,8 +57,5 @@ public class UltimateMathCompanionApplication extends SpringBootServletInitializ
         return dataSource;
     }
 
-    private int propertyToInt(String str) {
-        return Integer.parseInt(Objects.requireNonNull(env.getProperty(str)));
-    }
 
 }
