@@ -13,11 +13,12 @@ public class PageController {
 
     private final ExpressionService expressionService;
     private final TypesService typesService;
-    private final ExpressionController expressionController = new ExpressionController();
+    private final ExpressionController expressionController;
 
-    public PageController(ExpressionService expressionService, TypesService typesService) {
+    public PageController(ExpressionService expressionService, TypesService typesService, ExpressionController expressionController) {
         this.expressionService = expressionService;
         this.typesService = typesService;
+        this.expressionController = expressionController;
     }
 
     @GetMapping("/login")

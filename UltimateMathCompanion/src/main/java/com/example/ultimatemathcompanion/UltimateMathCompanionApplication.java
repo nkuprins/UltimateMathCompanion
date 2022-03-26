@@ -1,5 +1,6 @@
 package com.example.ultimatemathcompanion;
 
+import com.example.ultimatemathcompanion.controller.ExpressionController;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -32,6 +33,11 @@ public class UltimateMathCompanionApplication extends SpringBootServletInitializ
 
     private int propertyToInt(String str) {
         return Integer.parseInt(Objects.requireNonNull(env.getProperty(str)));
+    }
+
+    @Bean
+    public ExpressionController getExpressionController() {
+        return new ExpressionController();
     }
 
     @Bean
