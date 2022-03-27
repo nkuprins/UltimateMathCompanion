@@ -4,8 +4,7 @@ import com.example.ultimatemathcompanion.datamodel.Expression;
 import com.example.ultimatemathcompanion.datamodel.Types;
 import com.example.ultimatemathcompanion.math.Calculate;
 import com.example.ultimatemathcompanion.service.TypesService;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +17,7 @@ public class ExpressionController {
     // Valid format is: 2 / 3 + 1 * 4
     // No redundant spaces or unclear symbols.
     // All numbers are only integers.
-    private final Pattern validFormat = Pattern.compile("^-?\\d+( [+\\-*/] -?\\d+)+$");
+    private final static Pattern EXPRESSION_FORMAT = Pattern.compile("^-?\\d+( [+\\-*/] -?\\d+)+$");
 
     private int getExpressionTypeId(String expression) {
 
@@ -50,7 +49,7 @@ public class ExpressionController {
 
     public boolean isValidFormat(String expression) {
 
-        Matcher matcher = validFormat.matcher(expression);
+        Matcher matcher = EXPRESSION_FORMAT.matcher(expression);
         return matcher.matches();
     }
 }

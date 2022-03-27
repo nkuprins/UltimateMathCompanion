@@ -33,7 +33,8 @@ public class Types {
         DivisionMultipl(3),         // */
         LongExpression(4);          // */+-*/+-
 
-        @Getter private final int id;
+        @Getter
+        private final int id;
     }
 
 }

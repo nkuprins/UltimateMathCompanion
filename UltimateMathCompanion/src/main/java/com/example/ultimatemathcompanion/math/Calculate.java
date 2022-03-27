@@ -18,6 +18,7 @@ package com.example.ultimatemathcompanion.math;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 // Utility class for Math calculations.
 public final class Calculate {
 
-    private static final List<Character> mathSigns = Arrays.asList('+', '-', '*', 'x', '/', '÷');
+    private final static Set<Character> MATH_SIGNS = new HashSet<>(Arrays.asList('+', '-', '*', 'x', '/', '÷'));
 
     private Calculate() {}
 
@@ -37,7 +38,7 @@ public final class Calculate {
         return Arrays.stream(str.split(" "))
                 .filter(s -> s.length() == 1)
                 .map(s -> s.charAt(0))
-                .filter(mathSigns::contains)
+                .filter(MATH_SIGNS::contains)
                 .collect(Collectors.toSet());
     }
 
@@ -77,7 +78,7 @@ public final class Calculate {
         String[] expressionOrders = splitExpression(expression);
 
         for (String s : expressionOrders) {
-            if (s.length() == 1 && mathSigns.contains(s.charAt(0))) {
+            if (s.length() == 1 && MATH_SIGNS.contains(s.charAt(0))) {
                 // Variable s is an operation symbol
                 operation = s;
                 continue;
