@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -37,7 +38,11 @@ public class Expression {
     @Column(name = "expression_id")
     private int id;
 
+    // Valid format is: 2 / 3 + 1 * 4
+    // No redundant spaces or unclear symbols.
+    // All numbers are only integers.
     @Column(name = "expression")
+    @Pattern(regexp = "^-?\\d+( [+\\-*/] -?\\d+)+$")
     private String expression;
 
     @Column(name = "answer")

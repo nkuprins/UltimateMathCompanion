@@ -9,15 +9,8 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ExpressionController {
-
-    // Valid format is: 2 / 3 + 1 * 4
-    // No redundant spaces or unclear symbols.
-    // All numbers are only integers.
-    private final static Pattern EXPRESSION_FORMAT = Pattern.compile("^-?\\d+( [+\\-*/] -?\\d+)+$");
 
     private int getExpressionTypeId(String expression) {
 
@@ -45,11 +38,5 @@ public class ExpressionController {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         expression.setDate(Date.valueOf(LocalDateTime.now().format(dateTimeFormatter)));
-    }
-
-    public boolean isValidFormat(String expression) {
-
-        Matcher matcher = EXPRESSION_FORMAT.matcher(expression);
-        return matcher.matches();
     }
 }

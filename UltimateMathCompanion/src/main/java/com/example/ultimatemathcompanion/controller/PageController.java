@@ -5,7 +5,10 @@ import com.example.ultimatemathcompanion.service.ExpressionService;
 import com.example.ultimatemathcompanion.service.TypesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -46,9 +49,10 @@ public class PageController {
     }
 
     @PostMapping("/save")
-    public String saveExpression(@ModelAttribute("formExpression") Expression expression) {
+    public String saveExpression(@Valid @ModelAttribute("formExpression") Expression expression,
+                                 BindingResult bindingResult) {
 
-        if (!expressionController.isValidFormat(expression.getExpression()))
+        if (bindingResult.hasErrors())
             return "redirect:/"; // SERVER SIDE VALIDATION. If format is not valid reset the page.
 
         expressionController.processExpression(expression, typesService);
