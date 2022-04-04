@@ -34,9 +34,9 @@ public final class Calculate {
     }
 
     public static Set<Character> getMathSigns(String str) {
-        return Arrays.stream(str.split(" "))
-                .filter(s -> s.length() == 1)
-                .map(s -> s.charAt(0))
+        return Arrays.stream(str.split(" "))  // split all expression -2 + 20 + 2 = [-2, +, 20, +, 2]
+                .filter(s -> s.length() == 1) // +,-,/,*,2 have length 1, so [+, +, 2]
+                .map(s -> s.charAt(0))        // Convert to char for Set<Character> MATH_SIGNS
                 .filter(MATH_SIGNS::contains)
                 .collect(Collectors.toSet());
     }
