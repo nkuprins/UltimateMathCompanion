@@ -22,6 +22,7 @@ class FormView {
 
     _handleBtnBack() {
         this._exprForm.style.display = 'none';
+        this._exprFormText.value = '';
         this._expressionsTable.style.display = 'inherit';
         this._expressionsTableHeader.style.display = 'flex';
         window.history.pushState('','','/');
