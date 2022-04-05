@@ -16,26 +16,6 @@ class UltimateMathCompanionApplicationTests {
     private final ExpressionController expressionController = new ExpressionController();
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "272 + 250", "430 + 876", "-900 + 800", "200 - 25 * 100 / 25"
-    })
-    public void correctFormatTrue(String expression) {
-        Assertions.assertTrue(expressionController.isValidFormat(expression));
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "Hello272A + 250", "430 + 87GD6 = 1306", "-900 + 800 = -10MIW0",
-            "272+ 250", "430+876 1306", "900 + 800 =-100",
-            "+ 250 522", "430+ 1306", "900 + 800D",
-            "272+ 250  522", "430876 1306"
-    })
-    public void correctFormatFalse(String expression) {
-        Assertions.assertFalse(expressionController.isValidFormat(expression));
-    }
-
-
-    @ParameterizedTest
     @CsvSource(value = {
             "80 / -2 / 2=-20.0000",
             "-81 / -52 - 34 - 3 - 46 * 13 / 67 - 8 - 20 / 42=-52.8439",

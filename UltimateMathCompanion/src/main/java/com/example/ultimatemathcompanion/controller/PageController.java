@@ -36,6 +36,7 @@ public class PageController {
         Expression formExpression = id == null ? new Expression() : expressionService.findById(Integer.parseInt(id));
 
         model.addAttribute("theExpressions", expressions);
+        model.addAttribute("formId", id);
         model.addAttribute("formExpression", formExpression);
 
         return "index";
@@ -49,9 +50,10 @@ public class PageController {
     }
 
     @PostMapping("/save")
-    public String saveExpression(@Valid @ModelAttribute("formExpression") Expression expression,
+    public String saveExpression(@ModelAttribute("id") String id, @Valid @ModelAttribute("formExpression") Expression expression,
                                  BindingResult bindingResult) {
 
+        System.out.println(id);
         if (bindingResult.hasErrors())
             return "redirect:/"; // SERVER SIDE VALIDATION. If format is not valid reset the page.
 
