@@ -29,11 +29,11 @@
             </div>
             <div class="expr-form">
 
-                <form th:action="@{/save}" th:object="${formExpression}" method="POST">
+                <form th:action="@{/save}" method="POST">
                     <h2 class="expr-form__title">Expression Form</h2>
-                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" name="exprId" th:value="${exprId}">
                     <label class="expr-form__label" for="expr">Expression</label><br>
-                    <input class="expr-form__textfield" th:field="*{expression}"
+                    <input class="expr-form__textfield" name="expr" th:value="${expr}"
                            id="expr" type="text" placeholder="2 + 2 / 4 - 8 + 100 * 2">
                     <div class="expr-form__result">
                         <button class="expr-form__buttons expr-form__back"  type="button">Back</button>
@@ -44,7 +44,7 @@
             <div class="table__wrapper">
             <table class="expressions-table">
                 <tbody>
-                    <tr class="exprRow" th:each="tempExpression, iter: ${theExpressions}" th:id="${tempExpression.getId()}">
+                    <tr class="exprRow" th:each="tempExpression, iter: ${listOfExpressions}" th:id="${tempExpression.getId()}">
                         <td class="table__col--1" th:text="${iter.count}"></td>
                         <td class="table__col--2" th:text="${tempExpression.expression}"></td>
                         <td class="table__col--3" th:text="${tempExpression.answer}"></td>

@@ -5,6 +5,7 @@ import com.example.ultimatemathcompanion.datamodel.Types;
 import com.example.ultimatemathcompanion.math.Calculate;
 import com.example.ultimatemathcompanion.service.TypesService;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,15 +29,16 @@ public class ExpressionController {
         return Types.Kinds.SumSubtrDivMultipl.getId();
     }
 
-    public void processExpression(Expression expression, TypesService typesService) {
+    public Expression processExpression(String exprId, String expr, TypesService typesService) {
 
-        String theExpression = expression.getExpression();
-        expression.setAnswer(Calculate.solveExpression(theExpression));
+        BigDecimal answer = Calculate.solveExpression(expr);
+        Types exprType = typesService.findById(getExpressionTypeId(expr));
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = LocalDateTime.now().format(dateFormatter);
 
-        int typeId = getExpressionTypeId(theExpression);
-        expression.setTypes(typesService.findById(typeId));
-
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        expression.setDate(Date.valueOf(LocalDateTime.now().format(dateTimeFormatter)));
+        if (exprId.equals(""))
+            return new Expression(expr, answer, date, exprType);
+        else
+            return new Expression(Integer.parseInt(exprId), expr, answer, date, exprType);
     }
 }

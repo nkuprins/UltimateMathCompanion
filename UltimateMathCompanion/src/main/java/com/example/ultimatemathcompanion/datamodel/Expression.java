@@ -24,12 +24,11 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "expressions")
 @Getter
-@Setter
 @NoArgsConstructor
 public class Expression {
 
@@ -38,18 +37,14 @@ public class Expression {
     @Column(name = "expression_id")
     private int id;
 
-    // Valid format is: 2 / 3 + 1 * 4
-    // No redundant spaces or unclear symbols.
-    // All numbers are only integers.
     @Column(name = "expression")
-    @Pattern(regexp = "^-?\\d+( [+\\-*/] -?\\d+)+$")
     private String expression;
 
     @Column(name = "answer")
     private BigDecimal answer;
 
     @Column(name = "date")
-    private Date date;
+    private String date;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST, CascadeType.MERGE,
@@ -57,7 +52,15 @@ public class Expression {
     @JoinColumn(name = "type")
     private Types types;
 
-    public Expression(String expression, BigDecimal answer, Date date, Types types) {
+    public Expression(String expression, BigDecimal answer, String date, Types types) {
+        this.expression = expression;
+        this.answer = answer;
+        this.date = date;
+        this.types = types;
+    }
+
+    public Expression(int id, String expression, BigDecimal answer, String date, Types types) {
+        this.id = id;
         this.expression = expression;
         this.answer = answer;
         this.date = date;
