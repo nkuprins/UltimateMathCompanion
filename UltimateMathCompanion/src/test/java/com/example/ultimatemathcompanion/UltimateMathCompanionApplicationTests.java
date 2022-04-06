@@ -13,8 +13,6 @@ import java.math.BigDecimal;
 @SpringBootTest
 class UltimateMathCompanionApplicationTests {
 
-    private final ExpressionController expressionController = new ExpressionController();
-
     @ParameterizedTest
     @CsvSource(value = {
             "80 / -2 / 2=-20.0000",
